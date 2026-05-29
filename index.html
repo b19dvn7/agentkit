@@ -392,6 +392,15 @@ $("capForm").addEventListener("submit",async(e)=>{
     else{throw new Error("bad status "+r.status);}
   }catch(err){msg.style.color="var(--warn)";msg.textContent="Hmm, that didn't save. Try again in a sec.";}
 });
+
+/* ---------- privacy-light visit tracking (path + referrer origin only) ---------- */
+(function(){try{
+  if(!SIGNUP_URL)return;
+  var key=location.pathname+"|"+new Date().toISOString().slice(0,13);
+  if(sessionStorage.getItem("akpv"))return; sessionStorage.setItem("akpv","1");
+  fetch(SIGNUP_URL.replace("/signups","/page_views"),{method:"POST",headers:Object.assign({"Content-Type":"application/json"},SIGNUP_HEADERS),
+    body:JSON.stringify({path:location.pathname,ref:(document.referrer||"direct").split("/").slice(0,3).join("/")})});
+}catch(e){}})();
 </script>
 </body>
 </html>
