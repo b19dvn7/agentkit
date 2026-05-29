@@ -377,8 +377,8 @@ $("dlBtn").addEventListener("click",()=>{
 });
 
 /* ---------- email capture (endpoint wired at deploy) ---------- */
-const SIGNUP_URL=""; // set at deploy
-const SIGNUP_HEADERS={}; // set at deploy
+const SIGNUP_URL="https://zmmvpfjrskuqspiytptn.supabase.co/rest/v1/signups";
+const SIGNUP_HEADERS={"apikey":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InptbXZwZmpyc2t1cXNwaXl0cHRuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAwNzQzNDYsImV4cCI6MjA5NTY1MDM0Nn0.PXysTVwxY-WrOJI9Fo1GbKUUicIcyHzVmQ5Sz4v2IFc","Authorization":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InptbXZwZmpyc2t1cXNwaXl0cHRuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAwNzQzNDYsImV4cCI6MjA5NTY1MDM0Nn0.PXysTVwxY-WrOJI9Fo1GbKUUicIcyHzVmQ5Sz4v2IFc","Prefer":"return=minimal"};
 $("capForm").addEventListener("submit",async(e)=>{
   e.preventDefault();
   const msg=$("capMsg"), email=$("capEmail").value.trim();
