@@ -436,7 +436,7 @@ $("capForm").addEventListener("submit",async(e)=>{
   if(!SIGNUP_URL)return;
   var RPC=SIGNUP_URL.replace("/signups","/rpc/get_public_stats");
   function elapsed(s){var ms=Date.now()-new Date(s).getTime();var m=Math.floor(ms/6e4),h=Math.floor(m/60),d=Math.floor(h/24);return d>0?d+"d "+(h%24)+"h":h>0?h+"h "+(m%60)+"m":m+"m";}
-  function anim(el,to){if(!el)return;to=to||0;var i=0,steps=20,iv=setInterval(function(){i++;el.textContent=Math.round(to*i/steps);if(i>=steps){el.textContent=to;clearInterval(iv);}},25);}
+  function anim(el,to){if(el)el.textContent=(to||0).toLocaleString();}
   var H={"Content-Type":"application/json",apikey:SIGNUP_HEADERS.apikey,Authorization:SIGNUP_HEADERS.Authorization};
   function load(){fetch(RPC,{method:"POST",headers:H,body:"{}"}).then(function(r){return r.json();}).then(function(d){
     if(!d)return;var rev=document.getElementById("s-rev"),el=document.getElementById("s-elapsed");
