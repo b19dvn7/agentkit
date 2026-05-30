@@ -1,3 +1,4 @@
 User-agent: *
 Allow: /
+Disallow: /dl/
 Sitemap: https://b19dvn7.github.io/agentkit/sitemap.xml
