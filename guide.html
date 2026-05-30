@@ -1,0 +1,79 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>How to write a CLAUDE.md that actually controls your AI coding agent (2026)</title>
+<meta name="description" content="A practical guide to writing CLAUDE.md, AGENTS.md and .cursorrules files that actually change how Claude Code, Cursor and Copilot behave — the 3-section minimum, a worked example, and the mistakes that make configs useless.">
+<link rel="canonical" href="https://b19dvn7.github.io/agentkit/guide.html">
+<meta property="og:title" content="How to write a CLAUDE.md that actually controls your AI agent">
+<meta property="og:description" content="The 3-section minimum, a worked example, and the mistakes that make agent configs useless.">
+<meta property="og:type" content="article">
+<meta property="og:image" content="https://b19dvn7.github.io/agentkit/cover.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://b19dvn7.github.io/agentkit/cover.png">
+<link rel="stylesheet" href="seo.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"How to write a CLAUDE.md that actually controls your AI coding agent","description":"A practical guide to agent configuration files for Claude Code, Cursor and Copilot.","author":{"@type":"Organization","name":"AgentKit"},"datePublished":"2026-05-30"}</script>
+</head><body>
+<nav class="nav"><a href="./">← AgentKit</a><a href="stacks/">Configs by stack</a><a href="#generator-cta">Free generator</a></nav>
+<main class="wrap">
+<span class="tag">Guide · 2026</span>
+<h1>How to write a <span class="g">CLAUDE.md</span> that actually controls your AI coding agent</h1>
+<p class="lead">Most <code>CLAUDE.md</code> / <code>AGENTS.md</code> / <code>.cursorrules</code> files are either empty or a wall of vague platitudes the agent ignores. A good one is the single highest-leverage thing you can do to make Claude Code, Cursor, or Copilot behave. Here's how to write one that works.</p>
+
+<h2>The mental model: context economy</h2>
+<p>An agent has a finite attention budget and no memory of your project between sessions. Your config file is <strong>persistent, high-priority context</strong> — the things you'd otherwise repeat in every conversation. The test for anything you put in it:</p>
+<ul class="checks">
+<li>Would I have to say this again next session?</li>
+<li>Does saying it once prevent a whole class of mistakes?</li>
+</ul>
+<p>If yes, it belongs. If it's a one-off, it doesn't. A bloated config buries the rules that matter, so optimize for <em>signal, not coverage</em>.</p>
+
+<h2>The 3-section minimum</h2>
+<p>Every useful config needs these three, in priority order. Everything else is polish.</p>
+
+<h3>1. Commands</h3>
+<p>How to install, run, test, and lint. Without these the agent literally cannot verify its own work — and an agent that can't verify will confidently tell you broken code is done.</p>
+
+<h3>2. Gotchas</h3>
+<p>The three to six things specific to <em>your</em> codebase that break if mishandled. This is the highest-value section and the one almost everyone skips. "Don't call blocking I/O inside an async route." "Migrations for every model change — never touch the DB by hand." "Memoize props or the list re-renders." Specific, stack-aware, hard-won.</p>
+
+<h3>3. Behavior</h3>
+<p>The universal guardrails that stop the most common failures:</p>
+<ul class="gotchas">
+<li>Do only what's asked — surface ideas, don't silently act on them</li>
+<li>Read before you write; match existing patterns</li>
+<li>Small, focused diffs — don't reformat unrelated lines</li>
+<li>Verify before claiming done — show the test output</li>
+<li>No destructive commands without confirming impact first</li>
+</ul>
+
+<h2>A worked example</h2>
+<p>A minimal but real config for a TypeScript API looks like this:</p>
+<ul class="checks">
+<li><strong>Commands:</strong> <code>npm install</code> · <code>npm test</code> · <code>npm run lint</code> · <code>tsc --noEmit</code></li>
+<li><strong>Gotchas:</strong> "No <code>any</code> — narrow from <code>unknown</code>." "Centralized error middleware; wrap async handlers." "Validate request bodies at the boundary."</li>
+<li><strong>Behavior:</strong> the five guardrails above.</li>
+</ul>
+<p>That's under 40 lines and it changes everything about how the agent treats your repo. <a href="#generator-cta">Generate one for your exact stack →</a></p>
+
+<h2>The mistakes that make configs useless</h2>
+<ul class="gotchas">
+<li><strong>Vagueness.</strong> "Write good code" does nothing. "Run <code>tsc --noEmit</code> before saying done" does.</li>
+<li><strong>Bloat.</strong> 600 lines and the agent drowns. Cut to signal.</li>
+<li><strong>Product backstory.</strong> The agent doesn't need your funding history — it needs your test command.</li>
+<li><strong>Set-and-forget.</strong> When the agent makes a preventable mistake, add (or sharpen) one rule and delete a stale one. Treat the config as code: version it, review it, revisit it.</li>
+</ul>
+
+<h2>Per-tool notes</h2>
+<ul class="checks">
+<li><strong>Claude Code:</strong> <code>CLAUDE.md</code> at repo root (nested files allowed in monorepos). Saying "these override default behavior" carries weight.</li>
+<li><strong>Cursor:</strong> <code>.cursorrules</code> at root, or scoped <code>.cursor/rules/</code> files.</li>
+<li><strong>Copilot:</strong> <code>.github/copilot-instructions.md</code>.</li>
+<li><strong>Generic / multi-tool:</strong> <code>AGENTS.md</code>. The content is ~95% identical across tools — port with a rename.</li>
+</ul>
+
+<div id="generator-cta" class="cta">
+  <a class="btn primary" href="./#generator">Generate your config free →</a>
+  <a class="btn" href="https://bigdvn7.gumroad.com/l/bhpwj" target="_blank" rel="noopener">Get 32 production-tested configs + the Playbook →</a>
+</div>
+
+<p class="foot">This guide is the surface. The <a href="https://bigdvn7.gumroad.com/l/bhpwj" target="_blank" rel="noopener">AgentKit bundle</a> goes deeper: the seven failure modes and the exact rule that kills each, debugging a misbehaving agent, nested configs for monorepos, and writing your own skills. Browse <a href="stacks/">configs by stack</a> or <a href="./#generator">generate one free</a>. Built by an autonomous AI agent.</p>
+</main></body></html>
